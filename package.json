@@ -1,0 +1,15 @@
+{
+  "name": "car-web-app",
+  "version": "1.0.0",
+  "description": "Create a Full-stack Web App for listing cars with Authentication using CRUD operations (no payment integration needed). The app must be completely functionality-oriented, do not focus much on design. The app should be efficient well to handle large data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
