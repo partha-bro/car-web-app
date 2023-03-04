@@ -1,38 +1,33 @@
 const mongoose = require('mongoose')
 
-const carSchema = new mongoose.Schema(
-    {
-        brandName: {
-            type: String,
-            required: [true,'Car Name must be provided']
-        },
-        model: {
-            type: String,
-            required: [true,'Model Name must be provided']
-        }
-    }
-)
-
 const userSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            trim: true,
-            required: [true,'Name must be provided!']
+            trim: true
         },
         email: {
-            type: String,
-            lowercase: true,
-            required: [true,'Email must be provided!']
+            type: String
         },
         password: {
-            type: String,
-            required: [true,'Password must be provided!']
+            type: String
         },
-        cars: [ carSchema ]
+        cars: [ new mongoose.Schema({
+                brandName: {
+                    type: String,
+                    required: [true,'Car Name must be provided']
+                },
+                model: {
+                    type: String,
+                    required: [true,'Model Name must be provided']
+                }
+            })
+        ]
     },{timestamps:true}
 )
 
+
+
 UserDb = mongoose.model('user',userSchema)
-CarDb = mongoose.model('car',carSchema)
-module.exports = { UserDb,CarDb }
+
+module.exports = { UserDb }
