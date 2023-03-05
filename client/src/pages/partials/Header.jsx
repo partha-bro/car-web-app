@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
+import { LOGIN, MESSAGE, SET_USERNAME } from '../../store/action/authActionType'
+import AuthContext from '../../store/AuthContext'
 
-const Header = ({username}) => {
+const Header = () => {
 
-  const logoutFn = () => {
+  const [ state, dispatch ] = useContext(AuthContext)
+
+  const username = state.username
+
+  const logoutFn = (e) => {
+    e.preventDefault()
     localStorage.clear()
-    window.location.href = '/login'
+    dispatch({type:SET_USERNAME,payload:'guest'})
+    dispatch({type:MESSAGE,payload:''})
+    dispatch({type:LOGIN,payload:false})
   }
 
   return (
@@ -18,8 +27,8 @@ const Header = ({username}) => {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <NavLink className="nav-item nav-link text-white" to="/">Home </NavLink>
-            <NavLink to={`/myCars/${username}`} className="nav-item nav-link text-white" >My Cars</NavLink>
-            <NavLink to={`/newCar/${username}`} className="nav-item nav-link text-white" >New Car</NavLink>
+            <NavLink to={`/myCars`} className="nav-item nav-link text-white" >My Cars</NavLink>
+            <NavLink to={`/newCar`} className="nav-item nav-link text-white" >New Car</NavLink>
             
           </div>
         </div>

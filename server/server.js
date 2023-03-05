@@ -2,6 +2,7 @@ require('dotenv').config()
 require('express-async-errors')
 
 const express = require('express')
+const cors = require('cors')
 const carRouter = require('./routes/carRouter')
 const notFound = require('./middleware/notFound')
 const errorMiddleware = require('./middleware/errorMiddleware')
@@ -13,6 +14,7 @@ const server = express()
 // middleware
 server.use(express.static('views'))
 server.use(express.json())
+server.use(cors())
 server.use('/api/v1',carRouter)
 server.use('/login',loginRouter)
 server.use('/signup',signupRouter)
@@ -21,7 +23,7 @@ server.use(errorMiddleware)
 
 const startServer = async () => {
     try {
-        const port = process.env.PORT || 6000
+        const port = process.env.PORT || 5000
         const database = 'CarDB'
 
         const success = await connectDB(process.env.MONGODB,database)

@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import React, { useEffect, useState,useContext } from 'react'
 import Header from './partials/Header'
 import Footer from './partials/Footer'
 import TableCars from './TableCars'
 import axios from 'axios'
+import { LOGIN,LOADING } from '../store/action/authActionType'
+import AuthContext from '../store/AuthContext'
 
-const HomePage = () => {
+const MyCars = () => {
+
+  const [ state, dispatch ] = useContext(AuthContext)
+
   const [cars,setCars] = useState([])
-  const [username,setUsername] = useState('guest')
-  const [isLoading,setLoading] = useState(false)
-
-
 
   const fetch = async () => {
-    setLoading(true)
+    dispatch({type:LOADING,payload:true})
     const token = localStorage.getItem('token')
     if(!token){
-      window.location.href = '/login';
+      dispatch({type:LOGIN,payload:false})
     }
     try {
-       const response = await axios.get('http://localhost:5000/api/v1/cars',{
+       const response = await axios.get(`http://localhost:5000/api/v1/cars/${state.username}`,{
         headers: {
           authorization: `Bearer ${token}`
         }
        })
        const success = await response.data
        setCars(success.data)
-       setUsername(success.user.name)
-       setLoading(false)
+       dispatch({type:LOADING,payload:false})
     } catch (error) {
        console.log(`Signup fetch error: ${error}`);
     }
@@ -40,14 +39,13 @@ const HomePage = () => {
     },[]
   )
 
-
   return (
     <>
-      <Header username={username}/>
-        <TableCars data={cars} loading={isLoading} flag='allCar'/>
+      <Header />
+        <TableCars data={cars} flag='myCar'/>
       <Footer />
     </>
   )
 }
 
-export default HomePage
+export default MyCars

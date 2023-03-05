@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import '../AuthStyle.css'
+import AuthContext from '../../../store/AuthContext'
+import { MESSAGE } from '../../../store/action/authActionType'
 
 const Signup = () => {
     const [form, setForm] = useState({
@@ -9,15 +11,15 @@ const Signup = () => {
         email: '',
         password: ''
     })
-    const [message, setMessage] = useState('')
+    const [ state, dispatch ] = useContext(AuthContext)
 
     const fetch = async () => {
       try {
          const response = await axios.post('http://localhost:5000/signup',form)
          const success = await response.data
-         setMessage(success.message + ' Now you are goto Login Page.');
+         dispatch({type:MESSAGE,payload:success.message})
       } catch (error) {
-         setMessage('Something went wrong!');
+         dispatch({type:MESSAGE,payload:'Something went wrong!'})
          console.log(`Signup fetch error: ${error}`);
          
       }
@@ -63,8 +65,10 @@ const Signup = () => {
                     <Link to='/login'  className="btn btn-secondary">Login</Link>&nbsp;&nbsp;
                   <button className="btn btn-black" onClick={signupHandler}>Signup</button>
                   <hr/>
-                  { message.startsWith('Something ') ? <><div className="alert alert-danger" role="alert">{ message }</div></>
-                     : <><div className="alert alert-success" role="alert">{ message }</div></>
+                  { state.message.startsWith('Something ') ? 
+                     <div className="alert alert-danger" role="alert">{ state.message }</div>
+                     : 
+                     <div className="alert alert-success" role="alert">{ state.message }</div>
                   }
                </div>
             </div>

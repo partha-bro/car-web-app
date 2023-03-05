@@ -1,21 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, useParams, Link } from "react-router-dom";
+import React, { useState,useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Header from "./partials/Header";
 import Footer from "./partials/Footer";
 import axios from "axios";
+import { LOGIN,MESSAGE } from '../store/action/authActionType'
+import AuthContext from '../store/AuthContext'
 
 const NewCar = () => {
-  const { name } = useParams("name");
+
+  const [ state, dispatch ] = useContext(AuthContext)
   const [car, setCar] = useState({
     brandName:'',
     model: ''
  })
- const [message, setMessage] = useState('')
+
+ useEffect(
+  ()=>{
+    dispatch({type:MESSAGE,payload:''})
+  },[]
+ )
+
 
  const fetch = async () => {
     const token = localStorage.getItem('token')
     if(!token){
-        window.location.href = '/login';
+      dispatch({type:LOGIN,payload:false})
     }
     try {
        const response = await axios.post('http://localhost:5000/api/v1/cars',car,{
@@ -24,10 +33,10 @@ const NewCar = () => {
         }
        })
        const success = await response.data
-       setMessage(success.message)
+       dispatch({type:MESSAGE,payload:success.message})
     } catch (error) {
-       console.log(`fetch error: ${error}`);
-       setMessage('Something went wrong!')
+       console.log(`fetch error: ${error}`)
+       dispatch({type:MESSAGE,payload:'Something went wrong!'})
     }
   }
  
@@ -44,7 +53,7 @@ const NewCar = () => {
 
   return (
     <>
-      <Header username={name} />
+      <Header />
       <form className="container">
         <div className="form-group">
           <label>Brand Name</label>
@@ -61,17 +70,17 @@ const NewCar = () => {
         &nbsp;&nbsp;
         <Link to="/" className="btn btn-secondary"> Cancel </Link>
         <hr />
-        {message.startsWith("Something ") ? (
+        {state.message.startsWith("Something ") ? (
             <>
             <div className="alert alert-danger" role="alert">
-              {message}
+              {state.message}
             </div>
           </>
          
         ) : (
             <>
             <div className="alert alert-success" role="alert">
-              {message}
+              {state.message}
             </div>
           </>
         )}

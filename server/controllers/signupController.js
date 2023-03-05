@@ -5,6 +5,7 @@ const saltRound = 5
 
 const signup = async (req,res) => {
     const { name,email,password} = req.body
+    if(!name || !email || !password) throw new customError(400,'Please fill the inputs')
     const user = await UserDb.findOne({email})
     if(!user){
         const hash = await bcrypt.hash(password,saltRound)

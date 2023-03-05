@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 
 const login = async (req,res) => {
     const { email,password } = req.body
+    if(!email || !password) throw new customError(400,'Please fill the inputs')
     const user = await UserDb.findOne({email})
     if(!user) throw new customError(204,'User not exist!')
     const login = await bcrypt.compare(password,user.password)
