@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useContext } from 'react'
 import Header from './partials/Header'
 import Footer from './partials/Footer'
-import TableCars from './TableCars'
+import MyCarTable from './MyCarTable'
 import axios from 'axios'
 import { LOGIN,LOADING } from '../store/action/authActionType'
 import AuthContext from '../store/AuthContext'
@@ -42,7 +42,7 @@ const MyCars = () => {
   return (
     <>
       <Header />
-        <TableCars data={cars} flag='myCar'/>
+        <MyCarTable data={cars} />
       <Footer />
     </>
   )

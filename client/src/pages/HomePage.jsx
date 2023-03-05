@@ -3,12 +3,12 @@ import Header from './partials/Header'
 import Footer from './partials/Footer'
 import TableCars from './TableCars'
 import axios from 'axios'
-import { LOGIN, SET_USERNAME,LOADING } from '../store/action/authActionType'
+import { LOGIN,LOADING } from '../store/action/authActionType'
 import AuthContext from '../store/AuthContext'
 
 const HomePage = () => {
   const [ state, dispatch ] = useContext(AuthContext)
-  const [cars,setCars] = useState([{cars:[]}])
+  const [cars,setCars] = useState([])
   
 
   const fetch = async () => {
@@ -34,7 +34,6 @@ const HomePage = () => {
   useEffect(
     ()=>{
       fetch()
-      return ()=>{}
     },[]
   )
 
@@ -42,7 +41,7 @@ const HomePage = () => {
   return (
     <>
       <Header/>
-        <TableCars data={cars} flag='allCar'/>
+        <TableCars data={cars} />
       <Footer />
     </>
   )
