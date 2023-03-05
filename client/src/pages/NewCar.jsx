@@ -23,7 +23,7 @@ const NewCar = ({workStatus}) => {
     else {
       const editData = async () =>{
         try {
-          const response = await axios.get(`http://localhost:5000/api/v1/car/${userId}/${carId}`,{
+          const response = await axios.get(`/api/v1/car/${userId}/${carId}`,{
             headers: {
               authorization: `Bearer ${token}`
             }
