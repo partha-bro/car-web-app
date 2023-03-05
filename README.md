@@ -44,11 +44,11 @@ JWT_SECRET=
 
 # APIs
 ```
-    Signup : POST : /signup/
-    Login : POST : /login/
-    All Cars : GET : /api/v1/cars
-    Create Car  : POST : /api/v1/cars
-    One Car :   GET : /api/v1/car/${user_id}/${car_id}
-    Update Car : PATCH : /api/v1/car/${car_id}
-    Get Cars of User : GET : /api/v1/cars/${name}
+    Signup              : POST  : /signup/
+    Login               : POST  : /login/
+    All Cars            : GET   : /api/v1/cars
+    Create Car          : POST  : /api/v1/cars
+    One Car             : GET   : /api/v1/car/${user_id}/${car_id}
+    Update Car          : PATCH : /api/v1/car/${car_id}
+    Get Cars of User    : GET   : /api/v1/cars/${name}
 ```
