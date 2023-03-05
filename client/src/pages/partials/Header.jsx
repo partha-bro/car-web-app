@@ -7,7 +7,7 @@ const Header = () => {
 
   const [ state, dispatch ] = useContext(AuthContext)
 
-  const username = state.username
+  const username = state.username.name || 'guest'
 
   const logoutFn = (e) => {
     e.preventDefault()

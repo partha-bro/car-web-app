@@ -18,11 +18,12 @@ function App() {
       <AuthContext.Provider value={[ state, dispatch ]}>
         <Routes>
           <Route path='/' element={ state.isLogged ? <HomePage /> : <Navigate replace to={'/login'}/>} />
-          <Route path='/newCar' element={state.isLogged ? <NewCar/> : <Navigate replace to={'/login'}/>} />
+          <Route path='/newCar' element={state.isLogged ? <NewCar workStatus='new'/> : <Navigate replace to={'/login'}/>} />
+          <Route path='/editCar/:userId/:carId' element={state.isLogged ? <NewCar workStatus='edit'/> : <Navigate replace to={'/login'}/>} />
           <Route path='/myCars' element={state.isLogged ? <MyCars /> : <Navigate replace to={'/login'}/>} />
           <Route path='/login' element={state.isLogged ? <Navigate replace to={'/'}/> : <Login />} />
+          <Route path='/details/:userId/:carId' element={state.isLogged ? <CarDetailsPage/> : <Navigate replace to={'/login'}/>} />
           <Route path='/signup' element={<Signup/>} />
-          <Route path='/details/:id' element={<CarDetailsPage/>} />
           <Route path='*' element={<Navigate replace to={'/login'}/>} />
         </Routes>
       </AuthContext.Provider>

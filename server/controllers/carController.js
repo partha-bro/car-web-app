@@ -15,17 +15,19 @@ const createCar = async (req,res) => {
     
 }
 const getCar = async (req,res) => {
-    const existUser = await UserDb.findOne({_id:res.user.id})
-    const car = existUser.cars.filter(car=>car._id == req.params.id)
-    if(!car) throw new customError(204, 'No Car exist!')
-    res.status(200).json({user:res.user,data:car})
+    const { userId,carId } = req.params
+    const user = await UserDb.findOne({_id:userId})
+    const { brandName,model } = user.cars.id(carId)
+    if(!user || !brandName || !model ) throw new customError(204, 'No Car exist!')
+    res.status(200).json({user:res.user,message:'Car was Fetched.',data:{ brandName,model }})
 }
 const updateCar = async (req,res) => {
-    const existUser = await UserDb.findOne({_id:res.user.id})
-    existUser.cars.id(req.params.id).brandName = req.body.brandName
-    existUser.cars.id(req.params.id).model = req.body.model
+    const { userId,carId } = req.params
+    const existUser = await UserDb.findOne({_id:userId})
+    existUser.cars.id(carId).brandName = req.body.brandName
+    existUser.cars.id(carId).model = req.body.model
     const updated = await existUser.save()
-    res.json(updated)
+    res.json({user:res.user,message:'Car infos are Updated.',data:updated})
 }
 const getAllCarsOfUser = async (req,res) => {
     const user = await UserDb.findOne({name:req.params.name})

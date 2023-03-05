@@ -19,7 +19,7 @@ const MyCars = () => {
       dispatch({type:LOGIN,payload:false})
     }
     try {
-       const response = await axios.get(`http://localhost:5000/api/v1/cars/${state.username}`,{
+       const response = await axios.get(`/api/v1/cars/${state.username.name}`,{
         headers: {
           authorization: `Bearer ${token}`
         }

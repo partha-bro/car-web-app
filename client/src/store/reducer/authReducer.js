@@ -10,7 +10,7 @@ const authReducer = (state,action) => {
         case LOGIN:
             return {...state, isLogged: action.payload}
         case SET_USERNAME:
-            return {...state, username: action.payload}
+            return {...state, username:{name:action.payload.name, id:action.payload.id} }
         case MESSAGE:
             return {...state, message: action.payload}
         case LOADING:

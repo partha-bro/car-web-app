@@ -1,13 +1,16 @@
 import React, { useState,useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "./partials/Header";
 import Footer from "./partials/Footer";
 import axios from "axios";
 import { LOGIN,MESSAGE } from '../store/action/authActionType'
 import AuthContext from '../store/AuthContext'
 
-const NewCar = () => {
+const NewCar = ({workStatus}) => {
 
+  let url
+  const token = localStorage.getItem('token')
+  const {userId,carId} = useParams()
   const [ state, dispatch ] = useContext(AuthContext)
   const [car, setCar] = useState({
     brandName:'',
@@ -16,24 +19,55 @@ const NewCar = () => {
 
  useEffect(
   ()=>{
-    dispatch({type:MESSAGE,payload:''})
+    if(workStatus === 'new') dispatch({type:MESSAGE,payload:'Please write your Car name and Model.'})
+    else {
+      const editData = async () =>{
+        try {
+          const response = await axios.get(`http://localhost:5000/api/v1/car/${userId}/${carId}`,{
+            headers: {
+              authorization: `Bearer ${token}`
+            }
+           })
+           const success = await response.data
+           setCar(success.data)
+           dispatch({type:MESSAGE,payload:success.message})
+        } catch (error) {
+           console.log(`fetch error: ${error}`)
+           dispatch({type:MESSAGE,payload:'Something went wrong!'})
+        }
+      }
+      editData()
+    }
   },[]
  )
 
 
  const fetch = async () => {
-    const token = localStorage.getItem('token')
     if(!token){
       dispatch({type:LOGIN,payload:false})
     }
     try {
-       const response = await axios.post('http://localhost:5000/api/v1/cars',car,{
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-       })
-       const success = await response.data
+      if(workStatus === 'new') {
+        url = '/api/v1/cars'
+        const response = await axios.post(url,car,{
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+         })
+         const success = await response.data
        dispatch({type:MESSAGE,payload:success.message})
+      }else{
+        url= `/api/v1/car/${userId}/${carId}`
+        const response = await axios.patch(url,car,{
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+         })
+         const success = await response.data
+        dispatch({type:MESSAGE,payload:success.message}) 
+      }
+       
+       
     } catch (error) {
        console.log(`fetch error: ${error}`)
        dispatch({type:MESSAGE,payload:'Something went wrong!'})
@@ -70,20 +104,9 @@ const NewCar = () => {
         &nbsp;&nbsp;
         <Link to="/" className="btn btn-secondary"> Cancel </Link>
         <hr />
-        {state.message.startsWith("Something ") ? (
-            <>
-            <div className="alert alert-danger" role="alert">
+            <div className="alert alert-primary" role="alert">
               {state.message}
             </div>
-          </>
-         
-        ) : (
-            <>
-            <div className="alert alert-success" role="alert">
-              {state.message}
-            </div>
-          </>
-        )}
       </form>
       <Footer />
     </>

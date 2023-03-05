@@ -15,7 +15,7 @@ const Signup = () => {
 
     const fetch = async () => {
       try {
-         const response = await axios.post('http://localhost:5000/signup',form)
+         const response = await axios.post('/signup',form)
          const success = await response.data
          dispatch({type:MESSAGE,payload:success.message})
       } catch (error) {

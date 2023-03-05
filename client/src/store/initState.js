@@ -1,6 +1,9 @@
 export const initState = {
     isLogged : false,
-    username : 'guest',
+    username : {
+        name: '',
+        id: 0
+    },
     message  : '',
     isLoading : false,
 }

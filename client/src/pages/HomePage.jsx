@@ -8,7 +8,8 @@ import AuthContext from '../store/AuthContext'
 
 const HomePage = () => {
   const [ state, dispatch ] = useContext(AuthContext)
-  const [cars,setCars] = useState([])
+  const [cars,setCars] = useState([{cars:[]}])
+  
 
   const fetch = async () => {
     dispatch({type:LOADING,payload:true})
@@ -17,14 +18,13 @@ const HomePage = () => {
       dispatch({type:LOGIN,payload:false})
     }
     try {
-       const response = await axios.get('http://localhost:5000/api/v1/cars',{
+       const response = await axios.get('/api/v1/cars',{
         headers: {
           authorization: `Bearer ${token}`
         }
        })
        const success = await response.data
        setCars(success.data)
-       dispatch({type:SET_USERNAME,payload:success.user.name})
        dispatch({type:LOADING,payload:false})
     } catch (error) {
        console.log(`Signup fetch error: ${error}`);

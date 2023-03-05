@@ -6,7 +6,7 @@ const carRouter = Router()
 carRouter.use(auth)
 
 carRouter.route('/cars').get(getAllCars).post(createCar)
-carRouter.route('/car/:id').get(getCar).patch(updateCar)
+carRouter.route('/car/:userId/:carId').get(getCar).patch(updateCar)
 carRouter.route('/cars/:name').get(getAllCarsOfUser)
 
 module.exports = carRouter

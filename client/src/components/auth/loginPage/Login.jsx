@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import '../AuthStyle.css'
 import AuthContext from '../../../store/AuthContext'
-import { LOGIN, MESSAGE } from '../../../store/action/authActionType'
+import { LOGIN, MESSAGE, SET_USERNAME } from '../../../store/action/authActionType'
 
 const Login = () => {
    const [ state, dispatch ] = useContext(AuthContext)
@@ -15,12 +15,13 @@ const Login = () => {
 
    const fetch = async () => {
       try {
-         const response = await axios.post('http://localhost:5000/login',form)
+         const response = await axios.post('/login',form)
          const success = await response.data
          localStorage.setItem('token', success.token)
          if(response.status === 204 || response.status === 400 || response.status === 500 ){
             dispatch({type:MESSAGE,payload:'mismatch login credentials!'})
          }else{
+            dispatch({type:SET_USERNAME,payload:success.user})
             dispatch({type:MESSAGE,payload:success.message})
             dispatch({type:LOGIN,payload:true})
          }

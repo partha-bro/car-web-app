@@ -3,12 +3,12 @@ Create a Full-stack Web App for listing cars with Authentication using CRUD oper
 
 ## Tech Stack (technologies with bold text are must-use): 
 ```
-● Technologies: JavaScript, TypeScript (preferred), SCSS 
-● Front-end: React.js, Redux 
-● Back-end: Node, Express (or Apollo), JWT 
+● Technologies: JavaScript 
+● Front-end: React.js, Reducer, Context API 
+● Back-end: Node, Express, JWT 
 ● Database: MongoDB 
-● API: GraphQL (preferred), JSON 
-● Storage: AWS S3 Bucket (or a similar one) 
+● API: JSON 
+● Storage: Render Website
 ```
 
 ## Screens / Functionality 
@@ -28,4 +28,27 @@ Create a Full-stack Web App for listing cars with Authentication using CRUD oper
 ● To fetch a single-car detail 
 ● To fetch the list of all cars 
 ● To fetch the list of cars created by logged in user
+```
+
+# USE
+```
+    $ npm install
+    $ npm start
+```
+
+# Create your .env file 
+```
+MONGODB=
+JWT_SECRET=
+```
+
+# APIs
+```
+    Signup : POST : /signup/
+    Login : POST : /login/
+    All Cars : GET : /api/v1/cars
+    Create Car  : POST : /api/v1/cars
+    One Car :   GET : /api/v1/car/${user_id}/${car_id}
+    Update Car : PATCH : /api/v1/car/${car_id}
+    Get Cars of User : GET : /api/v1/cars/${name}
 ```
